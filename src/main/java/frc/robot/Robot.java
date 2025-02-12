@@ -32,10 +32,6 @@ import frc.robot.Constants.MotorConstants;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static Object oi;
-
-    public static Object driveTrain;
-
 	private Command m_autonomousCommand;
 
 	private RobotContainer m_robotContainer;
@@ -49,8 +45,6 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		// Instantiate our RobotContainer.  This will perform all our button bindings, and put our
 		// autonomous chooser on the dashboard.
-
-	
 
 		m_robotContainer = new RobotContainer();
 		visionThread = new Thread(
@@ -194,38 +188,4 @@ public class Robot extends TimedRobot {
 	/** This function is called periodically whilst in simulation. */
 	@Override
 	public void simulationPeriodic() {}
-
-
-
-	private final Spark leftMotor = new Spark(MotorConstants.kLeftMotor1Port);
-    private final Spark rightMotor = new Spark(MotorConstants.kRightMotor1Port);
-    
-    private final double speedScale = 2.0;
-    private final double deadzone = 0.07;
-
-    public Robot() {
-        // Constructor logic if needed (e.g., motor initialization).
-    }
-
-    public void setMotors(double leftPower, double rightPower) {
-        leftMotor.set(leftPower);
-        rightMotor.set(rightPower);
-    }
-
-    public void tankDrive(double leftSpeed, double rightSpeed) {
-        leftSpeed = applyDeadzone(leftSpeed);
-        rightSpeed = applyDeadzone(rightSpeed);
-        setMotors(leftSpeed, rightSpeed);
-    }
-
-    private double applyDeadzone(double value) {
-        if (Math.abs(value) < deadzone) {
-            return 0;
-        }
-        return value * speedScale; // You can adjust the scale if needed
-    }
-    
-    public void stop() {
-        setMotors(0, 0); // Stop both motors
-    }
 }

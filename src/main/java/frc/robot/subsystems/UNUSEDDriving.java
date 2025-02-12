@@ -7,7 +7,7 @@ import frc.robot.Constants.MotorConstants;
 /**
  * This is the Driving subsystem that handles the robot's drive logic.
  */
-public class Driving extends SubsystemBase {
+public class UNUSEDDriving extends SubsystemBase {
     
     private final Spark leftMotor = new Spark(MotorConstants.kLeftMotor1Port);
     private final Spark rightMotor = new Spark(MotorConstants.kRightMotor1Port);
@@ -15,7 +15,7 @@ public class Driving extends SubsystemBase {
     private final double speedScale = 1.0;
     private final double deadzone = 0.07;
 
-    public Driving() {
+    public UNUSEDDriving() {
         // Constructor logic if needed (e.g., motor initialization).
     }
 
