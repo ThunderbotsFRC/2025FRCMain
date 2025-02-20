@@ -13,15 +13,21 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+	// holds the port values for all the motors
 	public static class MotorConstants {
 		public static final int kLeftMotor1Port   = 0;
 		public static final int kLeftMotor2Port   = 1;
 		public static final int kRightMotor1Port  = 2;
 		public static final int kRightMotor2Port  = 3;
-		public static final int kIntakeMotor1Port = 4;
-		public static final int kIntakeMotor2Port = 5;
-		public static final int kFireMotor1Port   = 6;
-		public static final int kFireMotor2Port   = 7;
-		public static final int ktouchSwitch1     = 0;
+		public static final int kArmMotorPort     = 4;
+		public static final int kArmEncoderPort   = 5;
   	}
+
+	// holds the positions of different values for the arms
+	public static class ArmConstants {
+		// Will need to do some testing to find the correct values for the bounds
+		public static final double kArmLowerBound = 0;
+		public static final double kArmUpperBound = 0;
+	}
 }
