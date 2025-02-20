@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.commands.Autos;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,6 +22,7 @@ public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 	private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+	private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
 
 	// Replace with CommandPS4Controller or CommandJoystick if needed
 	private final CommandXboxController m_driverController =
@@ -47,9 +49,11 @@ public class RobotContainer {
 
 		// Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
 		// cancelling on release.
-		//m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-		//m_driverController.b().whileTrue(m_driveSubsystem.TankDrive(1.0,0.0));
+		
+		// Sets the default command to be always driving based on controller input
 		m_driveSubsystem.setDefaultCommand(m_driveSubsystem.TankDrive(m_driverController::getLeftY, m_driverController::getRightX));
+
+		m_driverController.x().onTrue(m_armSubsystem.moveArm(0.3));
 	}
 
 	/**
