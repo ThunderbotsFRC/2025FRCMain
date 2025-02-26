@@ -53,7 +53,8 @@ public class RobotContainer {
 		// Sets the default command to be always driving based on controller input
 		m_driveSubsystem.setDefaultCommand(m_driveSubsystem.TankDrive(m_driverController::getLeftY, m_driverController::getRightX));
 
-		m_driverController.x().onTrue(m_armSubsystem.moveArm(0.3));
+		m_driverController.x().onTrue(m_armSubsystem.toggleArmPosition());
+		m_driverController.y().onTrue(m_armSubsystem.toggleMotors());
 	}
 
 	/**
