@@ -53,7 +53,11 @@ public class RobotContainer {
 		m_driveSubsystem.setDefaultCommand(m_driveSubsystem.TankDrive(m_driverController::getLeftY, m_driverController::getRightX));
 
 		m_driverController.x().onTrue(m_armSubsystem.toggleArmPosition());
-		m_driverController.y().onTrue(m_armSubsystem.toggleMotors());
+		m_driverController.a().and(m_driverController.b().negate()).onTrue(m_armSubsystem.setMotors(-1));
+		m_driverController.b().and(m_driverController.a().negate()).onTrue(m_armSubsystem.setMotors(1));
+		//m_driverController.y().onTrue(m_armSubsystem.toggleMotors());
+		//m_driverController.a().whileTrue(m_armSubsystem.setArmMotors(0).beforeStarting(m_armSubsystem.setArmMotors(-1)));
+		//m_driverController.b().whileTrue(m_armSubsystem.setArmMotors(0).beforeStarting(m_armSubsystem.setArmMotors(1)));
 	}
 
 	/**
