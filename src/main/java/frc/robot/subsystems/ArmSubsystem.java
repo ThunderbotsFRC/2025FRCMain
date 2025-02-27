@@ -58,20 +58,11 @@ public class ArmSubsystem extends SubsystemBase {
         });
     }
 
-    public Command setMotors(int pow) {
+    public Command setClawMotors(int pow) {
         return run(() -> {
-            if (lastPow == pow) {
-                toggle = !toggle;
-            } else {
-                toggle = true;
-            }
-            if (toggle) {
-                Motor1.set(pow);
-                Motor2.set(pow);
-            } else {
-                Motor1.set(0);
-                Motor2.set(0);
-            }
+            toggle = (lastPow == pow) ? !toggle : true;
+            Motor1.set(toggle ? pow : 0);
+            Motor2.set(toggle ? pow : 0);
             lastPow = pow;
         });
     }
