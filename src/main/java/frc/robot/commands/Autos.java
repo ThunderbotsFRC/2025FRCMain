@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,8 +16,8 @@ public final class Autos {
     return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
   }
   
-  public static Command mainAuto(DriveSubsystem subsystem) {
-    return new MainAuto(subsystem);
+  public static Command mainAuto(DriveSubsystem subsystem, ArmSubsystem subsystem2) {
+    return new MainAuto(subsystem, subsystem2);
   }
 
   private Autos() {
