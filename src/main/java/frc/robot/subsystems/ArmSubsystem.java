@@ -15,9 +15,9 @@ public class ArmSubsystem extends SubsystemBase {
     private PIDController ArmPIDCont;
     private boolean isArmUp = false; // Track the arm position state
 
-    private Spark Motor1;
-    private Spark Motor2;
-    private boolean areMotorsOn = false; // Track the state of the additional motors
+    private Spark Motor1, Motor2;
+    private boolean toggle = false;
+    private int lastPow = 0;    
     
     public ArmSubsystem() {
         ArmMotor = new Spark(kArmMotorPort); // Updated to use port 4
@@ -51,16 +51,28 @@ public class ArmSubsystem extends SubsystemBase {
         });
     }
 
-    public Command toggleMotors() {
+    public Command setArmMotors(double pow) {
         return run(() -> {
-            if (areMotorsOn) {
+            Motor1.set(pow);
+            Motor2.set(pow);
+        });
+    }
+
+    public Command setMotors(int pow) {
+        return run(() -> {
+            if (lastPow == pow) {
+                toggle = !toggle;
+            } else {
+                toggle = true;
+            }
+            if (toggle) {
+                Motor1.set(pow);
+                Motor2.set(pow);
+            } else {
                 Motor1.set(0);
                 Motor2.set(0);
-            } else {
-                Motor1.set(1);
-                Motor2.set(1);
             }
-            areMotorsOn = !areMotorsOn; // Toggle the state
+            lastPow = pow;
         });
     }
 }
