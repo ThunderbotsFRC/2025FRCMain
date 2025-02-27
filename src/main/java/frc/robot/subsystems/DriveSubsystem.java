@@ -29,4 +29,11 @@ public class DriveSubsystem extends SubsystemBase {
             
         });
     }
+
+    public Command TankDrive(double xSpeed, double zRotation) {
+        return run(() -> {
+            DiffDrive.arcadeDrive(xSpeed*-0.8, zRotation*-0.8);
+            
+        });
+    }
 }
