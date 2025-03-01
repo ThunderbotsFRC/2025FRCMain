@@ -57,9 +57,16 @@ public class RobotContainer {
 		m_driverController.pov(180).whileTrue(m_armSubsystem.moveArmTo(-300));
 		m_driverController.pov(270).whileTrue(m_armSubsystem.moveArmTo(-150));
 
-		m_driverController.x().and(m_driverController.y().negate()).whileTrue(m_armSubsystem.moveArm(0.6)).onFalse(m_armSubsystem.moveArm(0));
-		m_driverController.y().and(m_driverController.x().negate()).whileTrue(m_armSubsystem.moveArm(-0.6)).onFalse(m_armSubsystem.moveArm(0));
-		//m_driverController.y().onTrue(m_armSubsystem.toggleArmPosition());
+		m_driverController.x().and(m_driverController.y().negate())
+		.whileTrue(m_armSubsystem.SwitchMode(false)
+			.andThen(m_armSubsystem.moveArm(0.8)))
+		.onFalse(m_armSubsystem.moveArm(0));
+
+		m_driverController.y().and(m_driverController.x().negate())
+		.whileTrue(m_armSubsystem.SwitchMode(false)
+			.andThen(m_armSubsystem.moveArm(-0.8)))
+		.onFalse(m_armSubsystem.moveArm(0));
+
 		m_driverController.a().and(m_driverController.b().negate()).onTrue(m_armSubsystem.setClawMotors(0.6)).onFalse(m_armSubsystem.setClawMotors(0));
 		m_driverController.b().and(m_driverController.a().negate()).onTrue(m_armSubsystem.setClawMotors(-0.4)).onFalse(m_armSubsystem.setClawMotors(0));
 		

@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -34,6 +35,8 @@ public class Robot extends TimedRobot {
 
 	private RobotContainer m_robotContainer;
 	private Thread visionThread;
+
+	private Timer timer = new Timer();
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -141,6 +144,8 @@ public class Robot extends TimedRobot {
 	/** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
 	@Override
 	public void autonomousInit() {
+		timer.start();
+		timer.reset();
 		m_autonomousCommand = m_robotContainer.m_driveSubsystem.TankDrive(-1, 0);//m_robotContainer.getAutonomousCommand();
 
 		// schedule the autonomous command (example)

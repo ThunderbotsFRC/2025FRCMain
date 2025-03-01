@@ -23,6 +23,10 @@ public class DriveSubsystem extends SubsystemBase {
         DiffDrive = new DifferentialDrive(LeftFront, RightFront);
     }
 
+    public void TankDriveNoC(double xSpeed, double zRotation) {
+        DiffDrive.arcadeDrive(xSpeed*-0.8, zRotation*-0.8);
+    }
+
     public Command TankDrive(DoubleSupplier xSpeed, DoubleSupplier zRotation) {
         return run(() -> {
             DiffDrive.arcadeDrive(xSpeed.getAsDouble()*-0.8, zRotation.getAsDouble()*-0.8);

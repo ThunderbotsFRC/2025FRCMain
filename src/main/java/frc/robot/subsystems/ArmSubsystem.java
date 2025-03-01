@@ -28,11 +28,20 @@ public class ArmSubsystem extends SubsystemBase {
         Motor2 = new Spark(kMotor2Port);
     }
 
+    public Command SwitchMode(boolean mode) {
+        return runOnce(() -> {
+            pos = mode;
+        });
+    }
+
     public Command moveArm(double speed) {
         return runOnce(() -> {
             if (speed != 0)
                 pos = false;
-            ArmMotor.set(speed);
+            if (!pos) {
+                System.out.println(speed);
+                ArmMotor.set(speed);
+            }
         });
     }
 
@@ -41,14 +50,6 @@ public class ArmSubsystem extends SubsystemBase {
             pos = true;
             target = posi;
             System.out.println(posi);
-        });
-    }
-
-    public Command toggleArmPosition() {
-        return runOnce(() -> {
-            target = isArmUp ? 0 : -296;
-            isArmUp = !isArmUp;
-            System.out.println(isArmUp);
         });
     }
 
