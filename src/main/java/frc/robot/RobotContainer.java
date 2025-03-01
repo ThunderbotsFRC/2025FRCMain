@@ -4,10 +4,9 @@
 
 package frc.robot;
 
-import frc.robot.commands.Autos;
+import frc.robot.commands.MoveArm;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -20,8 +19,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	//private final AutoSubsystem m_autoSubsystem = new AutoSubsystem();
-	private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-	private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
+	public final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+	public final ArmSubsystem m_armSubsystem = new ArmSubsystem();
 
 	// Replace with CommandPS4Controller or CommandJoystick if needed
 	private final CommandXboxController m_driverController =
@@ -51,10 +50,19 @@ public class RobotContainer {
 		
 		// Sets the default command to be always driving based on controller input
 		m_driveSubsystem.setDefaultCommand(m_driveSubsystem.TankDrive(m_driverController::getLeftY, m_driverController::getRightX));
+		m_armSubsystem.setDefaultCommand(new MoveArm(m_armSubsystem));
 
-		m_driverController.x().onTrue(m_armSubsystem.toggleArmPosition());
-		m_driverController.a().and(m_driverController.b().negate()).onTrue(m_armSubsystem.setClawMotors(-1));
-		m_driverController.b().and(m_driverController.a().negate()).onTrue(m_armSubsystem.setClawMotors(1));
+		m_driverController.pov(0).whileTrue(m_armSubsystem.moveArmTo(0));
+		m_driverController.pov(90).whileTrue(m_armSubsystem.moveArmTo(40));
+		m_driverController.pov(180).whileTrue(m_armSubsystem.moveArmTo(-300));
+		m_driverController.pov(270).whileTrue(m_armSubsystem.moveArmTo(-150));
+
+		m_driverController.x().and(m_driverController.y().negate()).whileTrue(m_armSubsystem.moveArm(0.6)).onFalse(m_armSubsystem.moveArm(0));
+		m_driverController.y().and(m_driverController.x().negate()).whileTrue(m_armSubsystem.moveArm(-0.6)).onFalse(m_armSubsystem.moveArm(0));
+		//m_driverController.y().onTrue(m_armSubsystem.toggleArmPosition());
+		m_driverController.a().and(m_driverController.b().negate()).onTrue(m_armSubsystem.setClawMotors(0.6)).onFalse(m_armSubsystem.setClawMotors(0));
+		m_driverController.b().and(m_driverController.a().negate()).onTrue(m_armSubsystem.setClawMotors(-0.4)).onFalse(m_armSubsystem.setClawMotors(0));
+		
 		//m_driverController.y().onTrue(m_armSubsystem.toggleMotors());
 		//m_driverController.a().whileTrue(m_armSubsystem.setArmMotors(0).beforeStarting(m_armSubsystem.setArmMotors(-1)));
 		//m_driverController.b().whileTrue(m_armSubsystem.setArmMotors(0).beforeStarting(m_armSubsystem.setArmMotors(1)));
@@ -65,8 +73,8 @@ public class RobotContainer {
 	 *
 	 * @return the command to run in autonomous
 	 */
-	public Command getAutonomousCommand() {
+	/*public Command getAutonomousCommand() {
 		// An example command will be run in autonomous
 		return Autos.mainAuto(m_driveSubsystem, m_armSubsystem);
-  	}
+  	}*/
 }

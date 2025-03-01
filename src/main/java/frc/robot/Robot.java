@@ -18,6 +18,8 @@ import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -43,7 +45,7 @@ public class Robot extends TimedRobot {
 		// autonomous chooser on the dashboard.
 
 		m_robotContainer = new RobotContainer();
-		visionThread = new Thread(
+		/*visionThread = new Thread(
             () -> {
               	// Get the UsbCamera from CameraServer
 				UsbCamera camera = CameraServer.startAutomaticCapture();
@@ -109,7 +111,7 @@ public class Robot extends TimedRobot {
 				detector.close();
     		});
     	visionThread.setDaemon(true);
-    	visionThread.start();
+    	visionThread.start();*/
 	}
 
 	/**
@@ -125,6 +127,7 @@ public class Robot extends TimedRobot {
 		// commands, running already-scheduled commands, removing finished or interrupted commands,
 		// and running subsystem periodic() methods.  This must be called from the robot's periodic
 		// block in order for anything in the Command-based framework to work.
+		SmartDashboard.putNumber("enc", m_robotContainer.m_armSubsystem.ArmEncoder.getDistance());
 		CommandScheduler.getInstance().run();
 	}
 
@@ -138,17 +141,27 @@ public class Robot extends TimedRobot {
 	/** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+		m_autonomousCommand = m_robotContainer.m_driveSubsystem.TankDrive(-1, 0);//m_robotContainer.getAutonomousCommand();
 
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
+			CommandScheduler.getInstance().cancelAll();
+			System.out.println("pluh");
 			m_autonomousCommand.schedule();
 		}
 	}
 
 	/** This function is called periodically during autonomous. */
 	@Override
-	public void autonomousPeriodic() {}
+	public void autonomousPeriodic() {
+		// if (timer.get() < 5) {
+		// 	m_robotContainer.m_driveSubsystem.TankDrive(-0.2, 0);
+		// 	System.out.println("runnimg");
+		// 	//m_autonomousCommand.cancel();
+		// } else {
+		// 	m_robotContainer.m_driveSubsystem.TankDrive(0, 0);
+		// }
+	}
 
 	@Override
 	public void teleopInit() {
@@ -164,7 +177,7 @@ public class Robot extends TimedRobot {
 	/** This function is called periodically during operator control. */
 	@Override
 	public void teleopPeriodic() {
-		
+
 	}
 
 	@Override
