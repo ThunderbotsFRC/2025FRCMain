@@ -16,7 +16,7 @@ public class ArmSubsystem extends SubsystemBase {
     public int target;
     public boolean pos = false;
 
-    private Spark Motor1, Motor2;
+    public Spark Motor1, Motor2;
     
     public ArmSubsystem() {
         ArmMotor = new Spark(kArmMotorPort); // Updated to use port 4

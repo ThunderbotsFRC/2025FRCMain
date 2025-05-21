@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.commands.MoveArm;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -51,12 +52,7 @@ public class RobotContainer {
 		// Sets the default command to be always driving based on controller input
 		m_driveSubsystem.setDefaultCommand(m_driveSubsystem.TankDrive(m_driverController::getLeftY, m_driverController::getRightX));
 		m_armSubsystem.setDefaultCommand(new MoveArm(m_armSubsystem));
-
-		m_driverController.pov(0).whileTrue(m_armSubsystem.moveArmTo(0));
-		m_driverController.pov(90).whileTrue(m_armSubsystem.moveArmTo(40));
-		m_driverController.pov(180).whileTrue(m_armSubsystem.moveArmTo(-300));
-		m_driverController.pov(270).whileTrue(m_armSubsystem.moveArmTo(-150));
-
+		
 		m_driverController.x().and(m_driverController.y().negate())
 		.whileTrue(m_armSubsystem.SwitchMode(false)
 			.andThen(m_armSubsystem.moveArm(0.8)))
@@ -64,12 +60,23 @@ public class RobotContainer {
 
 		m_driverController.y().and(m_driverController.x().negate())
 		.whileTrue(m_armSubsystem.SwitchMode(false)
-			.andThen(m_armSubsystem.moveArm(-0.8)))
+			.andThen(m_armSubsystem.moveArm(-0.5)))
 		.onFalse(m_armSubsystem.moveArm(0));
 
 		m_driverController.a().and(m_driverController.b().negate()).onTrue(m_armSubsystem.setClawMotors(0.6)).onFalse(m_armSubsystem.setClawMotors(0));
 		m_driverController.b().and(m_driverController.a().negate()).onTrue(m_armSubsystem.setClawMotors(-0.4)).onFalse(m_armSubsystem.setClawMotors(0));
 		
+		m_driverController.leftBumper().whileTrue(
+			new RunCommand(() -> m_armSubsystem.Motor1.set(1), m_armSubsystem)
+		).onFalse(
+			new RunCommand(() -> m_armSubsystem.Motor1.set(0), m_armSubsystem)
+		);
+
+		m_driverController.rightBumper().whileTrue(
+			new RunCommand(() -> m_armSubsystem.Motor2.set(1), m_armSubsystem)
+		).onFalse(
+			new RunCommand(() -> m_armSubsystem.Motor2.set(0), m_armSubsystem)
+		);
 		//m_driverController.y().onTrue(m_armSubsystem.toggleMotors());
 		//m_driverController.a().whileTrue(m_armSubsystem.setArmMotors(0).beforeStarting(m_armSubsystem.setArmMotors(-1)));
 		//m_driverController.b().whileTrue(m_armSubsystem.setArmMotors(0).beforeStarting(m_armSubsystem.setArmMotors(1)));
